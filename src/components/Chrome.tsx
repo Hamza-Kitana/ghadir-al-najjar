@@ -1,40 +1,148 @@
 import { useLocation } from "@tanstack/react-router";
 import { SplitLink } from "./Transition";
 import { contact } from "@/lib/services";
+import { useLocale } from "@/lib/i18n";
 
-const links = [
-  { to: "/", label: "الرئيسية" },
-  { to: "/services", label: "الخدمات" },
-  { to: "/gallery", label: "المعرض" },
-  { to: "/about", label: "عن غدير" },
-];
+const linkMeta = [
+  { to: "/", key: "home", icon: "home" },
+  { to: "/services", key: "services", icon: "spark" },
+  { to: "/gallery", key: "gallery", icon: "play" },
+  { to: "/about", key: "about", icon: "user" },
+] as const;
+
+const NavIcon = ({ name }: { name: (typeof linkMeta)[number]["icon"] }) => {
+  const common = {
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.7,
+    className: "h-[1.15rem] w-[1.15rem]",
+  } as const;
+  if (name === "home") {
+    return (
+      <svg {...common}>
+        <path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z" />
+      </svg>
+    );
+  }
+  if (name === "spark") {
+    return (
+      <svg {...common}>
+        <path d="M12 3v3M12 18v3M4.9 5.9l2.1 2.1M17 16l2.1 2.1M3 12h3M18 12h3M4.9 18.1 7 16M17 8l2.1-2.1" />
+        <circle cx="12" cy="12" r="3.2" />
+      </svg>
+    );
+  }
+  if (name === "play") {
+    return (
+      <svg {...common}>
+        <rect x="3.5" y="5" width="17" height="14" rx="3" />
+        <path d="m10.5 9 5 3-5 3V9Z" fill="currentColor" stroke="none" />
+      </svg>
+    );
+  }
+  return (
+    <svg {...common}>
+      <circle cx="12" cy="8.5" r="3.2" />
+      <path d="M5.5 19.5c1.4-3.2 3.7-4.8 6.5-4.8s5.1 1.6 6.5 4.8" />
+    </svg>
+  );
+};
+
+function LangToggle() {
+  const { t, toggleLocale, locale } = useLocale();
+  return (
+    <button
+      type="button"
+      onClick={toggleLocale}
+      className="lang-toggle"
+      aria-label={t("nav.langAria")}
+      title={t("nav.langAria")}
+    >
+      <span className="lang-toggle-icon" aria-hidden>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          className="h-4 w-4"
+        >
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3 12h18M12 3c2.8 2.7 4.2 5.7 4.2 9s-1.4 6.3-4.2 9c-2.8-2.7-4.2-5.7-4.2-9S9.2 5.7 12 3Z" />
+        </svg>
+      </span>
+      <span className="lang-toggle-label">{locale === "ar" ? "EN" : "ع"}</span>
+    </button>
+  );
+}
 
 export function Nav() {
   const { pathname } = useLocation();
+  const { t } = useLocale();
+
   return (
-    <header className="fixed inset-x-0 top-0 z-40 flex items-center justify-between px-5 py-5 md:px-12">
-      <SplitLink to="/" className="font-display text-2xl tracking-wide text-gold-gradient">
-        Ghadeer
-      </SplitLink>
-      <nav className="glass flex gap-1 rounded-full p-1">
-        {links.map((l) => {
+    <>
+      <header className="site-header">
+        <SplitLink
+          to="/"
+          className="font-display text-xl tracking-wide text-gold-gradient sm:text-2xl"
+        >
+          Ghadeer
+        </SplitLink>
+        <nav className="desktop-nav glass hidden gap-1 rounded-full p-1 md:flex">
+          {linkMeta.map((l) => {
+            const active = l.to === "/" ? pathname === "/" : pathname.startsWith(l.to);
+            return (
+              <SplitLink
+                key={l.to}
+                to={l.to}
+                className={`rounded-full px-5 py-1.5 text-sm transition ${
+                  active
+                    ? "bg-primary text-primary-foreground"
+                    : "text-foreground/80 hover:text-primary"
+                }`}
+              >
+                {t(`nav.${l.key}`)}
+              </SplitLink>
+            );
+          })}
+        </nav>
+        <div className="header-actions">
+          <LangToggle />
+          <a
+            href={contact.whatsapp}
+            target="_blank"
+            rel="noreferrer"
+            className="social-btn md:hidden"
+            aria-label={t("nav.whatsapp")}
+          >
+            {Ic.whatsapp}
+          </a>
+        </div>
+      </header>
+
+      <nav className="mobile-dock md:hidden" aria-label={t("nav.aria")}>
+        {linkMeta.map((l) => {
           const active = l.to === "/" ? pathname === "/" : pathname.startsWith(l.to);
           return (
-            <SplitLink
-              key={l.to}
-              to={l.to}
-              className={`rounded-full px-3 py-1.5 text-sm transition md:px-5 ${
-                active
-                  ? "bg-primary text-primary-foreground"
-                  : "text-foreground/80 hover:text-primary"
-              }`}
-            >
-              {l.label}
+            <SplitLink key={l.to} to={l.to} className={`dock-item ${active ? "is-active" : ""}`}>
+              <NavIcon name={l.icon} />
+              <span>{t(`nav.${l.key}Short`)}</span>
             </SplitLink>
           );
         })}
       </nav>
-    </header>
+
+      <a
+        href={contact.whatsapp}
+        target="_blank"
+        rel="noreferrer"
+        className="wa-fab"
+        aria-label={t("nav.whatsappFab")}
+      >
+        {Ic.whatsapp}
+      </a>
+    </>
   );
 }
 
@@ -88,7 +196,7 @@ export function Socials() {
     { href: contact.whatsapp, icon: Ic.whatsapp, label: "WhatsApp" },
   ];
   return (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="socials-row">
       {items.map((s, i) => (
         <a
           key={s.label}
@@ -104,7 +212,7 @@ export function Socials() {
       ))}
       <a
         href={`tel:${contact.phone}`}
-        className="social-btn rise w-auto gap-2 px-4"
+        className="social-btn rise phone-chip"
         style={{ animationDelay: "1.9s" }}
       >
         {Ic.phone}

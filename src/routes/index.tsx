@@ -3,6 +3,8 @@ import ghadeer from "@/assets/ghadeer.jpg";
 import { CinemaBg } from "@/components/CinemaBg";
 import { Socials } from "@/components/Chrome";
 import { SplitLink } from "@/components/Transition";
+import { contact } from "@/lib/services";
+import { useLocale } from "@/lib/i18n";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -22,70 +24,71 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const { t } = useLocale();
+
   return (
-    <main className="relative h-[100dvh] overflow-hidden">
-      <CinemaBg video="/hero-bg.mp4" />
-      <div className="mx-auto grid h-full max-w-7xl grid-cols-1 items-center gap-6 px-6 pt-20 md:grid-cols-2 md:px-12">
-        <section className="order-2 space-y-5 text-center md:order-1 md:text-right">
+    <main className="hero-mobile relative h-[100dvh] overflow-hidden">
+      <CinemaBg video="/hero-bg.mp4" image="/gallery/photos/studio-01.jpg" />
+      <div className="hero-shell">
+        <section className="hero-portrait rise" style={{ animationDelay: ".15s" }}>
+          <div className="spin-slow absolute -inset-4 rounded-full border border-dashed border-primary/55 md:-inset-5" />
+          <div className="absolute -inset-1.5 rounded-full bg-gold-gradient opacity-70 blur-md md:-inset-2" />
+          <div className="floaty relative overflow-hidden rounded-full border-4 border-card shadow-gold hero-avatar">
+            <img
+              src={ghadeer}
+              alt={t("home.name")}
+              className="h-full w-full object-cover object-top"
+            />
+          </div>
+        </section>
+
+        <section className="hero-copy">
           <p
-            className="rise text-sm tracking-[0.4em] text-gold-deep"
+            className="rise text-[0.7rem] tracking-[0.35em] text-gold-deep sm:text-sm sm:tracking-[0.4em]"
             style={{ animationDelay: ".3s" }}
           >
-            SKIN SPECIALIST
+            {t("home.eyebrow")}
           </p>
-          <h1 className="font-arabic text-5xl leading-tight md:text-7xl">
+          <h1 className="font-arabic text-[2.6rem] leading-none sm:text-5xl md:text-7xl">
             <span
               className="reveal inline-block text-gold-gradient"
               style={{ animationDelay: ".5s" }}
             >
-              غدير النجار
+              {t("home.name")}
             </span>
           </h1>
           <p
-            className="rise font-display text-2xl italic text-foreground/80 md:text-3xl"
-            style={{ animationDelay: ".9s" }}
+            className="rise font-display text-xl italic text-foreground/80 sm:text-2xl md:text-3xl"
+            style={{ animationDelay: ".85s" }}
           >
-            Healthy Skin, Beautiful You
+            {t("home.tagline")}
           </p>
           <p
-            className="rise mx-auto max-w-md text-muted-foreground md:mx-0"
-            style={{ animationDelay: "1.1s" }}
+            className="rise mx-auto max-w-md text-sm text-muted-foreground sm:text-base md:mx-0"
+            style={{ animationDelay: "1.05s" }}
           >
-            عناية فاخرة ببشرتك بأحدث التقنيات — لأن نضارتك تستحق الأفضل.
+            {t("home.desc")}
           </p>
-          <div
-            className="rise flex justify-center gap-3 md:justify-start"
-            style={{ animationDelay: "1.25s" }}
-          >
+
+          <div className="hero-actions rise" style={{ animationDelay: "1.2s" }}>
             <SplitLink
               to="/services"
-              className="bg-gold-gradient shadow-gold rounded-full px-7 py-3 font-medium text-primary-foreground transition hover:scale-105"
+              className="bg-gold-gradient shadow-gold rounded-full px-6 py-3 text-sm font-medium text-primary-foreground transition active:scale-95 sm:px-7 sm:text-base"
             >
-              اكتشفي خدماتنا
+              {t("home.ctaServices")}
             </SplitLink>
-            <SplitLink
-              to="/about"
-              className="glass rounded-full px-7 py-3 transition hover:scale-105"
+            <a
+              href={contact.whatsapp}
+              target="_blank"
+              rel="noreferrer"
+              className="glass rounded-full px-6 py-3 text-sm transition active:scale-95 sm:px-7 sm:text-base"
             >
-              تعرفي علي
-            </SplitLink>
+              {t("home.ctaWhatsapp")}
+            </a>
           </div>
-          <div className="flex justify-center md:justify-start">
-            <Socials />
-          </div>
-        </section>
 
-        <section className="order-1 flex justify-center md:order-2">
-          <div className="rise relative" style={{ animationDelay: ".2s" }}>
-            <div className="spin-slow absolute -inset-5 rounded-full border border-dashed border-primary/60" />
-            <div className="absolute -inset-2 rounded-full bg-gold-gradient opacity-70 blur-md" />
-            <div className="floaty relative h-44 w-44 overflow-hidden rounded-full border-4 border-card shadow-gold sm:h-64 sm:w-64 md:h-[26rem] md:w-[26rem]">
-              <img
-                src={ghadeer}
-                alt="أخصائية البشرة غدير النجار"
-                className="h-full w-full object-cover object-top"
-              />
-            </div>
+          <div className="hero-socials">
+            <Socials />
           </div>
         </section>
       </div>

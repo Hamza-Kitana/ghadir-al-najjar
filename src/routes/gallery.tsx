@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { CinemaBg } from "@/components/CinemaBg";
-import { galleryFilters, galleryItems, type GalleryItem } from "@/lib/gallery";
+import { galleryFilterIds, galleryItems, type GalleryItem } from "@/lib/gallery";
+import { useLocale } from "@/lib/i18n";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/gallery")({
 });
 
 function GalleryPage() {
+  const { t, locale } = useLocale();
   const [filter, setFilter] = useState<string>("all");
   const [active, setActive] = useState<GalleryItem | null>(null);
 
@@ -28,6 +30,10 @@ function GalleryPage() {
     filter === "all" ? galleryItems : galleryItems.filter((item) => item.category === filter);
 
   const featured = galleryItems.find((item) => item.kind === "video");
+  const filters = galleryFilterIds.map((id) => ({
+    id,
+    title: t(id === "all" ? "gallery.all" : `gallery.${id === "video" ? "videos" : id}`),
+  }));
 
   useEffect(() => {
     if (!active) return;
@@ -43,22 +49,22 @@ function GalleryPage() {
   }, [active]);
 
   return (
-    <main className="relative min-h-screen px-5 pb-24 pt-28 md:px-12">
-      <CinemaBg video="/hero-bg.mp4" />
+    <main className="page-shell">
+      <CinemaBg video="/hero-bg.mp4" image="/gallery/photos/studio-01.jpg" />
       <div className="mx-auto max-w-7xl">
-        <div className="mb-10 text-center">
-          <p className="rise text-sm tracking-[0.4em] text-gold-deep">GALLERY</p>
+        <div className="mb-7 text-center sm:mb-10">
+          <p className="rise text-sm tracking-[0.4em] text-gold-deep">{t("gallery.eyebrow")}</p>
           <h1
-            className="rise font-arabic text-5xl text-gold-gradient md:text-6xl"
+            className="rise font-arabic text-4xl text-gold-gradient sm:text-5xl md:text-6xl"
             style={{ animationDelay: ".15s" }}
           >
-            المعرض
+            {t("gallery.title")}
           </h1>
           <p
-            className="rise mx-auto mt-3 max-w-xl text-muted-foreground"
+            className="rise mx-auto mt-3 max-w-xl px-2 text-sm text-muted-foreground sm:text-base"
             style={{ animationDelay: ".3s" }}
           >
-            فيديوهات وصور من داخل العيادة، ولحظات حقيقية من جلسات العناية والنتائج.
+            {t("gallery.desc")}
           </p>
         </div>
 
@@ -66,11 +72,11 @@ function GalleryPage() {
           <button
             type="button"
             onClick={() => setActive(featured)}
-            className="gallery-hero rise group mb-10 block w-full overflow-hidden rounded-[2rem] text-right"
+            className="gallery-hero rise group mb-7 block w-full overflow-hidden rounded-[1.5rem] text-start sm:mb-10 sm:rounded-[2rem]"
             style={{ animationDelay: ".35s" }}
           >
             <video
-              className="h-[42vw] max-h-[28rem] min-h-56 w-full object-cover transition duration-700 group-hover:scale-105"
+              className="h-52 w-full object-cover transition duration-700 group-hover:scale-105 sm:h-[42vw] sm:max-h-[28rem] sm:min-h-56"
               src={featured.src}
               poster={featured.poster}
               muted
@@ -79,11 +85,13 @@ function GalleryPage() {
               playsInline
             />
             <div className="gallery-hero-shade" />
-            <div className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-4 p-6 md:p-8">
+            <div className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-3 p-4 sm:gap-4 sm:p-6 md:p-8">
               <div>
-                <p className="font-display text-lg italic text-gold-light">{featured.en}</p>
-                <h2 className="font-arabic text-3xl text-primary-foreground md:text-4xl">
-                  {featured.title}
+                <p className="font-display text-sm italic text-gold-light sm:text-lg">
+                  {featured.subtitle[locale]}
+                </p>
+                <h2 className="font-arabic text-2xl text-primary-foreground sm:text-3xl md:text-4xl">
+                  {featured.title[locale]}
                 </h2>
               </div>
               <span className="gallery-play shrink-0">▶</span>
@@ -91,27 +99,20 @@ function GalleryPage() {
           </button>
         )}
 
-        <div
-          className="rise mb-10 flex flex-wrap justify-center gap-2"
-          style={{ animationDelay: ".45s" }}
-        >
-          {galleryFilters.map((f) => (
+        <div className="chip-row rise mb-7 sm:mb-10" style={{ animationDelay: ".45s" }}>
+          {filters.map((f) => (
             <button
               key={f.id}
               type="button"
               onClick={() => setFilter(f.id)}
-              className={`rounded-full px-5 py-2 text-sm transition ${
-                filter === f.id
-                  ? "bg-gold-gradient text-primary-foreground shadow-gold"
-                  : "glass hover:text-primary"
-              }`}
+              className={`chip ${filter === f.id ? "is-active" : ""}`}
             >
               {f.title}
             </button>
           ))}
         </div>
 
-        <div key={filter} className="gallery-grid">
+        <div key={`${filter}-${locale}`} className="gallery-grid">
           {list.map((item, i) => (
             <button
               key={item.id}
@@ -135,15 +136,17 @@ function GalleryPage() {
               ) : (
                 <img
                   src={item.src}
-                  alt={item.title}
+                  alt={item.title[locale]}
                   loading="lazy"
                   className="h-full w-full object-cover"
                 />
               )}
               <div className="gallery-card-shade" />
-              <div className="absolute inset-x-0 bottom-0 z-10 p-4 text-right text-primary-foreground">
-                <p className="font-display text-sm italic text-gold-light">{item.en}</p>
-                <h3 className="font-arabic text-xl">{item.title}</h3>
+              <div className="absolute inset-x-0 bottom-0 z-10 p-3 text-start text-primary-foreground sm:p-4">
+                <p className="font-display text-xs italic text-gold-light sm:text-sm">
+                  {item.subtitle[locale]}
+                </p>
+                <h3 className="font-arabic text-lg sm:text-xl">{item.title[locale]}</h3>
               </div>
               {item.kind === "video" && <span className="gallery-play gallery-play-sm">▶</span>}
             </button>
@@ -162,7 +165,7 @@ function GalleryPage() {
             <button
               type="button"
               className="gallery-close"
-              aria-label="إغلاق"
+              aria-label={t("gallery.close")}
               onClick={() => setActive(null)}
             >
               ✕
@@ -170,7 +173,7 @@ function GalleryPage() {
             {active.kind === "video" ? (
               <video
                 key={active.id}
-                className="max-h-[78vh] w-full rounded-2xl bg-ink object-contain"
+                className="max-h-[70vh] w-full rounded-2xl bg-ink object-contain sm:max-h-[78vh]"
                 src={active.src}
                 poster={active.poster}
                 controls
@@ -180,13 +183,17 @@ function GalleryPage() {
             ) : (
               <img
                 src={active.src}
-                alt={active.title}
-                className="max-h-[78vh] w-full rounded-2xl object-contain"
+                alt={active.title[locale]}
+                className="max-h-[70vh] w-full rounded-2xl object-contain sm:max-h-[78vh]"
               />
             )}
-            <div className="mt-4 text-center">
-              <p className="font-display text-lg italic text-gold-deep">{active.en}</p>
-              <h3 className="font-arabic text-3xl text-gold-gradient">{active.title}</h3>
+            <div className="mt-3 text-center sm:mt-4">
+              <p className="font-display text-base italic text-gold-deep sm:text-lg">
+                {active.subtitle[locale]}
+              </p>
+              <h3 className="font-arabic text-2xl text-gold-gradient sm:text-3xl">
+                {active.title[locale]}
+              </h3>
             </div>
           </div>
         </div>

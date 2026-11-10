@@ -13,6 +13,7 @@ import { type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { TransitionProvider } from "@/components/Transition";
 import { Nav } from "@/components/Chrome";
+import { LocaleProvider } from "@/lib/i18n";
 
 function NotFoundComponent() {
   return (
@@ -129,11 +130,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <TransitionProvider>
-        <Nav />
-        <Outlet />
-      </TransitionProvider>
+      <LocaleProvider>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <TransitionProvider>
+          <Nav />
+          <Outlet />
+        </TransitionProvider>
+      </LocaleProvider>
     </QueryClientProvider>
   );
 }

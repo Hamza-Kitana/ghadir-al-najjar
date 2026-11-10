@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { CinemaBg } from "@/components/CinemaBg";
 import { SplitLink } from "@/components/Transition";
-import { categories, services } from "@/lib/services";
+import { categoryIds, serviceShort, serviceTitle, services } from "@/lib/services";
+import { useLocale } from "@/lib/i18n";
 
 export const Route = createFileRoute("/services/")({
   head: () => ({
@@ -22,58 +23,62 @@ export const Route = createFileRoute("/services/")({
 });
 
 function Services() {
+  const { t, locale } = useLocale();
   const [cat, setCat] = useState<string>("all");
   const list = cat === "all" ? services : services.filter((s) => s.category === cat);
+  const filters = [
+    { id: "all", title: t("services.all") },
+    ...categoryIds.map((id) => ({ id, title: t(`cat.${id}`) })),
+  ];
+
   return (
-    <main className="relative min-h-screen px-5 pb-20 pt-28 md:px-12">
+    <main className="page-shell">
       <CinemaBg />
       <div className="mx-auto max-w-7xl">
-        <div className="mb-10 text-center">
-          <p className="rise text-sm tracking-[0.4em] text-gold-deep">OUR TREATMENTS</p>
+        <div className="mb-7 text-center sm:mb-10">
+          <p className="rise text-sm tracking-[0.4em] text-gold-deep">{t("services.eyebrow")}</p>
           <h1
-            className="rise font-arabic text-5xl text-gold-gradient md:text-6xl"
+            className="rise font-arabic text-4xl text-gold-gradient sm:text-5xl md:text-6xl"
             style={{ animationDelay: ".15s" }}
           >
-            خدماتنا
+            {t("services.title")}
           </h1>
         </div>
-        <div
-          className="rise mb-10 flex flex-wrap justify-center gap-2"
-          style={{ animationDelay: ".3s" }}
-        >
-          {[{ id: "all", title: "الكل" }, ...categories].map((c) => (
+        <div className="chip-row rise mb-7 sm:mb-10" style={{ animationDelay: ".3s" }}>
+          {filters.map((c) => (
             <button
               key={c.id}
               onClick={() => setCat(c.id)}
-              className={`rounded-full px-5 py-2 text-sm transition ${
-                cat === c.id
-                  ? "bg-gold-gradient text-primary-foreground shadow-gold"
-                  : "glass hover:text-primary"
-              }`}
+              className={`chip ${cat === c.id ? "is-active" : ""}`}
             >
               {c.title}
             </button>
           ))}
         </div>
-        <div key={cat} className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {list.map((s, i) => (
+        <div
+          key={`${cat}-${locale}`}
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
+        >
+          {list.map((s) => (
             <SplitLink
               key={s.slug}
               to="/services/$slug"
               params={{ slug: s.slug }}
-              className="svc-card rise block aspect-[4/5]"
+              className="svc-card rise block aspect-[5/6] sm:aspect-[4/5]"
             >
               <img
                 src={s.image}
-                alt={s.title}
+                alt={serviceTitle(s, locale)}
                 loading="lazy"
                 className="absolute inset-0 -z-10 h-full w-full object-cover"
               />
               <div className="shade absolute inset-0 -z-10" />
-              <div className="flex h-full flex-col justify-end p-6 text-primary-foreground">
-                <span className="font-display text-lg italic text-gold-light">{s.en}</span>
-                <h2 className="font-arabic text-3xl">{s.title}</h2>
-                <p className="mt-1 text-sm opacity-85">{s.short}</p>
+              <div className="flex h-full flex-col justify-end p-5 text-primary-foreground sm:p-6">
+                <span className="font-display text-base italic text-gold-light sm:text-lg">
+                  {s.title.en}
+                </span>
+                <h2 className="font-arabic text-2xl sm:text-3xl">{serviceTitle(s, locale)}</h2>
+                <p className="mt-1 text-sm opacity-85">{serviceShort(s, locale)}</p>
               </div>
             </SplitLink>
           ))}

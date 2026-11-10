@@ -4,124 +4,178 @@ import peel from "@/assets/peel.jpg";
 import laser from "@/assets/laser.jpg";
 import facial from "@/assets/facial.jpg";
 import lips from "@/assets/lips.jpg";
-import gold from "@/assets/bg-gold.jpg";
+import treatment from "@/assets/services/treatment.jpg";
+import nourish from "@/assets/services/nourish.jpg";
+import yellowPeel from "@/assets/services/yellow-peel.jpg";
+import peelsImg from "@/assets/services/peels.jpg";
+import aqua from "@/assets/services/aqua.jpg";
+import type { Locale } from "@/lib/i18n";
 
 export type Service = {
   slug: string;
-  title: string;
-  en: string;
   category: "facial" | "derma" | "peel" | "laser";
-  short: string;
-  benefits: string[];
+  title: { ar: string; en: string };
+  short: { ar: string; en: string };
+  benefits: { ar: string[]; en: string[] };
   image: string;
 };
 
-export const categories = [
-  { id: "facial", title: "جلسات الوجه", en: "Facials" },
-  { id: "derma", title: "ديرما بن", en: "Dermapen" },
-  { id: "peel", title: "التقشيرات", en: "Peels" },
-  { id: "laser", title: "الليزر والشد", en: "Laser & Lifting" },
-] as const;
+export const categoryIds = ["facial", "derma", "peel", "laser"] as const;
 
 export const services: Service[] = [
   {
     slug: "hydrafacial",
-    title: "هايدرا فيشل",
-    en: "HydraFacial",
     category: "facial",
-    short: "تنظيف عميق للبشرة مع تغذية ونضارة فورية.",
-    benefits: ["تنظيف عميق للمسام", "ترطيب وتغذية مكثفة", "نضارة وإشراقة فورية"],
+    title: { ar: "هايدرا فيشل", en: "HydraFacial" },
+    short: {
+      ar: "تنظيف عميق للبشرة مع تغذية ونضارة فورية.",
+      en: "Deep cleansing with instant nourishment and radiance.",
+    },
+    benefits: {
+      ar: ["تنظيف عميق للمسام", "ترطيب وتغذية مكثفة", "نضارة وإشراقة فورية"],
+      en: ["Deep pore cleansing", "Intense hydration", "Instant glow"],
+    },
     image: hydra,
   },
   {
     slug: "mini-facial",
-    title: "ميني فيشل",
-    en: "Mini Facial",
     category: "facial",
-    short: "جلسة سريعة منعشة تعيد للبشرة حيويتها.",
-    benefits: ["تنظيف لطيف", "انتعاش فوري", "مناسبة لكل أنواع البشرة"],
+    title: { ar: "ميني فيشل", en: "Mini Facial" },
+    short: {
+      ar: "جلسة سريعة منعشة تعيد للبشرة حيويتها.",
+      en: "A quick refreshing session that revives your skin.",
+    },
+    benefits: {
+      ar: ["تنظيف لطيف", "انتعاش فوري", "مناسبة لكل أنواع البشرة"],
+      en: ["Gentle cleansing", "Instant refresh", "Suitable for all skin types"],
+    },
     image: facial,
   },
   {
     slug: "treatment-session",
-    title: "الجلسة العلاجية",
-    en: "Treatment Session",
     category: "facial",
-    short: "جلسة مخصصة لعلاج مشاكل بشرتك بعناية.",
-    benefits: ["تشخيص حالة البشرة", "علاج موجّه", "خطة متابعة"],
-    image: gold,
+    title: { ar: "الجلسة العلاجية", en: "Treatment Session" },
+    short: {
+      ar: "جلسة مخصصة لعلاج مشاكل بشرتك بعناية.",
+      en: "A customized session to treat your skin concerns carefully.",
+    },
+    benefits: {
+      ar: ["تشخيص حالة البشرة", "علاج موجّه", "خطة متابعة"],
+      en: ["Skin assessment", "Targeted treatment", "Follow-up plan"],
+    },
+    image: treatment,
   },
   {
     slug: "nourish-glow",
-    title: "جلسات التغذية والنضارة",
-    en: "Nourish & Glow",
     category: "facial",
-    short: "تغذية عميقة تمنح بشرتك لمعة صحية.",
-    benefits: ["فيتامينات للبشرة", "توحيد اللون", "إشراقة تدوم"],
-    image: facial,
+    title: { ar: "جلسات التغذية والنضارة", en: "Nourish & Glow" },
+    short: {
+      ar: "تغذية عميقة تمنح بشرتك لمعة صحية.",
+      en: "Deep nourishment that gives your skin a healthy glow.",
+    },
+    benefits: {
+      ar: ["فيتامينات للبشرة", "توحيد اللون", "إشراقة تدوم"],
+      en: ["Skin vitamins", "Even tone", "Lasting radiance"],
+    },
+    image: nourish,
   },
   {
     slug: "dermapen",
-    title: "ديرما بن",
-    en: "Dermapen",
     category: "derma",
-    short: "تحفيز الكولاجين لبشرة أنعم وأكثر شباباً.",
-    benefits: ["تقليل آثار الحبوب", "تصغير المسام", "تجديد الخلايا"],
+    title: { ar: "ديرما بن", en: "Dermapen" },
+    short: {
+      ar: "تحفيز الكولاجين لبشرة أنعم وأكثر شباباً.",
+      en: "Collagen stimulation for smoother, younger-looking skin.",
+    },
+    benefits: {
+      ar: ["تقليل آثار الحبوب", "تصغير المسام", "تجديد الخلايا"],
+      en: ["Reduce acne marks", "Minimize pores", "Cell renewal"],
+    },
     image: derma,
   },
   {
     slug: "dermapen-lips",
-    title: "ديرما بن للشفاه",
-    en: "Lip Dermapen",
     category: "derma",
-    short: "شفاه أنعم وأكثر امتلاءً ولوناً طبيعياً.",
-    benefits: ["توريد الشفاه", "ترطيب عميق", "مظهر ممتلئ طبيعي"],
+    title: { ar: "ديرما بن للشفاه", en: "Lip Dermapen" },
+    short: {
+      ar: "شفاه أنعم وأكثر امتلاءً ولوناً طبيعياً.",
+      en: "Softer, fuller lips with a natural tint.",
+    },
+    benefits: {
+      ar: ["توريد الشفاه", "ترطيب عميق", "مظهر ممتلئ طبيعي"],
+      en: ["Lip tinting", "Deep hydration", "Natural plump look"],
+    },
     image: lips,
   },
   {
     slug: "diamond-peel",
-    title: "التقشير الماسي",
-    en: "Diamond Peel",
     category: "peel",
-    short: "إزالة الخلايا الميتة لبشرة ناعمة كالحرير.",
-    benefits: ["نعومة فورية", "تفتيح البشرة", "بدون ألم"],
+    title: { ar: "التقشير الماسي", en: "Diamond Peel" },
+    short: {
+      ar: "إزالة الخلايا الميتة لبشرة ناعمة كالحرير.",
+      en: "Removes dead cells for silky-smooth skin.",
+    },
+    benefits: {
+      ar: ["نعومة فورية", "تفتيح البشرة", "بدون ألم"],
+      en: ["Instant softness", "Brighter skin", "Painless"],
+    },
     image: peel,
   },
   {
     slug: "yellow-peel",
-    title: "التقشير الأصفر",
-    en: "Yellow Peel",
     category: "peel",
-    short: "علاج التصبغات وتوحيد لون البشرة.",
-    benefits: ["علاج الكلف والتصبغات", "توحيد اللون", "تجديد البشرة"],
-    image: peel,
+    title: { ar: "التقشير الأصفر", en: "Yellow Peel" },
+    short: {
+      ar: "علاج التصبغات وتوحيد لون البشرة.",
+      en: "Treats pigmentation and evens skin tone.",
+    },
+    benefits: {
+      ar: ["علاج الكلف والتصبغات", "توحيد اللون", "تجديد البشرة"],
+      en: ["Melasma & pigmentation care", "Even tone", "Skin renewal"],
+    },
+    image: yellowPeel,
   },
   {
     slug: "peels",
-    title: "التقشيرات بأنواعها",
-    en: "Chemical Peels",
     category: "peel",
-    short: "تقشيرات متنوعة تناسب احتياج بشرتك.",
-    benefits: ["اختيار حسب نوع البشرة", "تجديد ملمس البشرة", "إشراقة واضحة"],
-    image: gold,
+    title: { ar: "التقشيرات بأنواعها", en: "Chemical Peels" },
+    short: {
+      ar: "تقشيرات متنوعة تناسب احتياج بشرتك.",
+      en: "A range of peels tailored to your skin needs.",
+    },
+    benefits: {
+      ar: ["اختيار حسب نوع البشرة", "تجديد ملمس البشرة", "إشراقة واضحة"],
+      en: ["Matched to skin type", "Texture renewal", "Visible glow"],
+    },
+    image: peelsImg,
   },
   {
     slug: "laser",
-    title: "ليزر إزالة الشعر وشد البشرة",
-    en: "Laser & Tightening",
     category: "laser",
-    short: "نعومة تدوم مع شد وتجديد للبشرة.",
-    benefits: ["إزالة الشعر بأمان", "شد البشرة", "نتائج طويلة الأمد"],
+    title: { ar: "ليزر إزالة الشعر وشد البشرة", en: "Laser & Tightening" },
+    short: {
+      ar: "نعومة تدوم مع شد وتجديد للبشرة.",
+      en: "Long-lasting smoothness with skin tightening.",
+    },
+    benefits: {
+      ar: ["إزالة الشعر بأمان", "شد البشرة", "نتائج طويلة الأمد"],
+      en: ["Safe hair removal", "Skin firming", "Long-lasting results"],
+    },
     image: laser,
   },
   {
     slug: "aqua-lift",
-    title: "شد البشرة المائي",
-    en: "Aqua Lifting",
     category: "laser",
-    short: "شد وترطيب للبشرة بتقنية مائية لطيفة.",
-    benefits: ["شد ملحوظ", "ترطيب عميق", "مظهر أكثر شباباً"],
-    image: hydra,
+    title: { ar: "شد البشرة المائي", en: "Aqua Lifting" },
+    short: {
+      ar: "شد وترطيب للبشرة بتقنية مائية لطيفة.",
+      en: "Gentle water-based lifting and hydration.",
+    },
+    benefits: {
+      ar: ["شد ملحوظ", "ترطيب عميق", "مظهر أكثر شباباً"],
+      en: ["Visible firming", "Deep hydration", "Youthful look"],
+    },
+    image: aqua,
   },
 ];
 
@@ -133,3 +187,15 @@ export const contact = {
   tiktok: "https://www.tiktok.com/@ghadeer.alnajjar1",
   facebook: "https://www.facebook.com/yasnen.alnajjar",
 };
+
+export function serviceTitle(service: Service, locale: Locale) {
+  return service.title[locale];
+}
+
+export function serviceShort(service: Service, locale: Locale) {
+  return service.short[locale];
+}
+
+export function serviceBenefits(service: Service, locale: Locale) {
+  return service.benefits[locale];
+}

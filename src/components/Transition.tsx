@@ -31,7 +31,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
         <div className="split-half split-left" />
         <div className="split-half split-right" />
         <div className="split-seam" />
-        <div className="split-mark font-display">G</div>
+        <div className="split-mark font-display">Ghadeer</div>
       </div>
     </TransitionCtx.Provider>
   );

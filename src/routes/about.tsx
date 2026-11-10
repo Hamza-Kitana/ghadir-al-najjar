@@ -3,6 +3,8 @@ import ghadeer from "@/assets/ghadeer.jpg";
 import { CinemaBg } from "@/components/CinemaBg";
 import { Socials } from "@/components/Chrome";
 import { SplitLink } from "@/components/Transition";
+import { contact } from "@/lib/services";
+import { useLocale } from "@/lib/i18n";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -22,52 +24,67 @@ export const Route = createFileRoute("/about")({
 });
 
 function About() {
+  const { t } = useLocale();
   const stats = [
-    { n: "+11", l: "خدمة متخصصة" },
-    { n: "100%", l: "عناية شخصية" },
-    { n: "✦", l: "أحدث الأجهزة" },
+    { n: "+11", l: t("about.stat1") },
+    { n: "100%", l: t("about.stat2") },
+    { n: "✦", l: t("about.stat3") },
   ];
+
   return (
-    <main className="relative min-h-screen px-5 pb-16 pt-28 md:px-12">
+    <main className="page-shell">
       <CinemaBg />
-      <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-[1fr_1.2fr]">
-        <div className="rise relative mx-auto w-full max-w-sm">
-          <div className="absolute -inset-3 rotate-3 rounded-[2.5rem] bg-gold-gradient opacity-70" />
+      <div className="mx-auto grid max-w-6xl items-center gap-8 md:grid-cols-[1fr_1.2fr] md:gap-12">
+        <div className="rise relative mx-auto w-full max-w-[17rem] sm:max-w-sm">
+          <div className="absolute -inset-3 rotate-3 rounded-[2rem] bg-gold-gradient opacity-70 sm:rounded-[2.5rem]" />
           <img
             src={ghadeer}
-            alt="غدير النجار"
-            className="relative aspect-[4/5] w-full rounded-[2.5rem] object-cover shadow-gold"
+            alt={t("about.name")}
+            className="relative aspect-[4/5] w-full rounded-[2rem] object-cover shadow-gold sm:rounded-[2.5rem]"
           />
         </div>
-        <div className="space-y-6">
-          <p className="rise text-sm tracking-[0.4em] text-gold-deep">ABOUT ME</p>
-          <h1 className="reveal font-arabic text-5xl text-gold-gradient md:text-6xl">
-            غدير النجار
+        <div className="space-y-5 text-center md:space-y-6 md:text-start">
+          <p className="rise text-sm tracking-[0.4em] text-gold-deep">{t("about.eyebrow")}</p>
+          <h1 className="reveal font-arabic text-4xl text-gold-gradient sm:text-5xl md:text-6xl">
+            {t("about.name")}
           </h1>
-          <p className="rise text-lg leading-loose" style={{ animationDelay: ".3s" }}>
-            أخصائية عناية بالبشرة، أؤمن أن كل بشرة لها قصتها الخاصة. أقدم جلسات الميني فيشل والجلسات
-            العلاجية، ومنها الهايدرا فيشل لتغذية البشرة ونضارتها، وجلسات التغذية والنضارة، إلى جانب
-            الديرما بن والتقشيرات والليزر.
+          <p
+            className="rise text-base leading-8 sm:text-lg sm:leading-loose"
+            style={{ animationDelay: ".3s" }}
+          >
+            {t("about.body")}
           </p>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
             {stats.map((s, i) => (
               <div
                 key={s.l}
-                className="glass rise rounded-2xl p-4 text-center"
+                className="glass rise rounded-2xl p-3 text-center sm:p-4"
                 style={{ animationDelay: `${0.5 + i * 0.12}s` }}
               >
-                <div className="font-display text-3xl text-gold-gradient">{s.n}</div>
-                <div className="text-sm text-muted-foreground">{s.l}</div>
+                <div className="font-display text-2xl text-gold-gradient sm:text-3xl">{s.n}</div>
+                <div className="text-xs text-muted-foreground sm:text-sm">{s.l}</div>
               </div>
             ))}
           </div>
-          <SplitLink
-            to="/services"
-            className="bg-gold-gradient shadow-gold inline-block rounded-full px-7 py-3 text-primary-foreground"
-          >
-            شاهدي الخدمات
-          </SplitLink>
-          <Socials />
+          <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
+            <SplitLink
+              to="/services"
+              className="bg-gold-gradient shadow-gold inline-block rounded-full px-6 py-3 text-sm text-primary-foreground sm:px-7 sm:text-base"
+            >
+              {t("about.ctaServices")}
+            </SplitLink>
+            <a
+              href={contact.whatsapp}
+              target="_blank"
+              rel="noreferrer"
+              className="glass inline-block rounded-full px-6 py-3 text-sm sm:px-7 sm:text-base"
+            >
+              {t("about.ctaWhatsapp")}
+            </a>
+          </div>
+          <div className="flex justify-center md:justify-start">
+            <Socials />
+          </div>
         </div>
       </div>
     </main>
