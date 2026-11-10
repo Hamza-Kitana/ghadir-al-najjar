@@ -49,7 +49,7 @@ function Index() {
           >
             {t("home.eyebrow")}
           </p>
-          <h1 className="font-arabic text-[2.6rem] leading-none sm:text-5xl md:text-7xl">
+          <h1 className="font-arabic text-[2.75rem] leading-[1.05] sm:text-5xl md:text-7xl">
             <span
               className="reveal inline-block text-gold-gradient"
               style={{ animationDelay: ".5s" }}

@@ -196,30 +196,26 @@ export function Socials() {
     { href: contact.whatsapp, icon: Ic.whatsapp, label: "WhatsApp" },
   ];
   return (
-    <div className="socials-row">
-      {items.map((s, i) => (
-        <a
-          key={s.label}
-          href={s.href}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={s.label}
-          className="social-btn rise"
-          style={{ animationDelay: `${1.4 + i * 0.12}s` }}
-        >
-          {s.icon}
-        </a>
-      ))}
-      <a
-        href={`tel:${contact.phone}`}
-        className="social-btn rise phone-chip"
-        style={{ animationDelay: "1.9s" }}
-      >
+    <div className="socials-block">
+      <a href={`tel:${contact.phone}`} className="phone-btn rise" style={{ animationDelay: "1.35s" }}>
         {Ic.phone}
-        <span dir="ltr" className="text-sm tracking-wider">
-          {contact.phoneLabel}
-        </span>
+        <span dir="ltr">{contact.phoneLabel}</span>
       </a>
+      <div className="socials-row">
+        {items.map((s, i) => (
+          <a
+            key={s.label}
+            href={s.href}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={s.label}
+            className="social-btn rise"
+            style={{ animationDelay: `${1.45 + i * 0.1}s` }}
+          >
+            {s.icon}
+          </a>
+        ))}
+      </div>
     </div>
   );
 }

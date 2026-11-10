@@ -1,14 +1,14 @@
-import hydra from "@/assets/hydra.jpg";
-import derma from "@/assets/derma.jpg";
-import peel from "@/assets/peel.jpg";
-import laser from "@/assets/laser.jpg";
-import facial from "@/assets/facial.jpg";
-import lips from "@/assets/lips.jpg";
-import treatment from "@/assets/services/treatment.jpg";
-import nourish from "@/assets/services/nourish.jpg";
+import hydra from "@/assets/services/hydrafacial.jpg";
+import facial from "@/assets/services/mini-facial.jpg";
+import treatment from "@/assets/services/treatment-session.jpg";
+import nourish from "@/assets/services/nourish-glow.jpg";
+import derma from "@/assets/services/dermapen.jpg";
+import lips from "@/assets/services/dermapen-lips.jpg";
+import peel from "@/assets/services/diamond-peel.jpg";
 import yellowPeel from "@/assets/services/yellow-peel.jpg";
-import peelsImg from "@/assets/services/peels.jpg";
-import aqua from "@/assets/services/aqua.jpg";
+import peelsImg from "@/assets/services/chemical-peels.jpg";
+import laser from "@/assets/services/laser.jpg";
+import aqua from "@/assets/services/aqua-lift.jpg";
 import type { Locale } from "@/lib/i18n";
 
 export type Service = {
@@ -186,6 +186,19 @@ export const contact = {
   instagram: "https://www.instagram.com/ghadeer_alnajjar77/",
   tiktok: "https://www.tiktok.com/@ghadeer.alnajjar1",
   facebook: "https://www.facebook.com/yasnen.alnajjar",
+  maps: "https://maps.app.goo.gl/oxUZCLjXKBnLXSCp6",
+  mapsEmbed:
+    "https://www.google.com/maps?q=31.9931901,35.8700961&hl=ar&z=16&output=embed",
+  clinic: {
+    ar: "عيادة الدكتور أنور العدوان — Derma Solutions Clinic",
+    en: "Dr. Anwar Al Adwan — Derma Solutions Clinic",
+  },
+  address: {
+    ar: "شارع المدينة المنورة، دوار الواحة، مجمع فطين البداد، تلاع العلي — عمّان",
+    en: "Al Madinah Al Munawarah St, Al Waha Circle, Fateen Al Baddad Complex, Tlaa Al Ali — Amman",
+  },
+  lat: 31.9931901,
+  lng: 35.8700961,
 };
 
 export function serviceTitle(service: Service, locale: Locale) {
