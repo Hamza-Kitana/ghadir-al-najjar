@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import ghadeer from "@/assets/ghadeer.jpg";
 import { CinemaBg } from "@/components/CinemaBg";
 import { Socials } from "@/components/Chrome";
-import { LocationMap } from "@/components/LocationMap";
 import { SplitLink } from "@/components/Transition";
 import { contact } from "@/lib/services";
 import { useLocale } from "@/lib/i18n";
@@ -34,12 +33,10 @@ function About() {
 
   return (
     <main className="about-page">
-      {/* Desktop background only — mobile has its own full-bleed photo */}
       <div className="hidden md:contents">
         <CinemaBg />
       </div>
 
-      {/* Mobile-only composition */}
       <div className="about-mobile md:hidden">
         <section className="about-mobile-hero">
           <img src={ghadeer} alt={t("about.name")} className="about-mobile-photo" />
@@ -76,13 +73,8 @@ function About() {
 
           <Socials />
         </section>
-
-        <div className="about-mobile-map">
-          <LocationMap />
-        </div>
       </div>
 
-      {/* Desktop composition */}
       <div className="page-shell hidden md:block">
         <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-[1fr_1.2fr]">
           <div className="rise relative mx-auto w-full max-w-sm">
@@ -129,10 +121,6 @@ function About() {
             </div>
             <Socials />
           </div>
-        </div>
-
-        <div className="mx-auto mt-14 max-w-6xl">
-          <LocationMap />
         </div>
       </div>
     </main>

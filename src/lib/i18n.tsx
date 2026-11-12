@@ -47,11 +47,6 @@ const messages: Record<Locale, Dict> = {
     "about.stat3": "أجهزة",
     "about.ctaServices": "شاهدي الخدمات",
     "about.ctaWhatsapp": "تواصلي واتساب",
-    "location.eyebrow": "LOCATION",
-    "location.title": "مكان العيادة",
-    "location.desc": "غدير تستقبلك في عيادة الدكتور أنور العدوان — Derma Solutions Clinic.",
-    "location.openMaps": "افتحي على الخريطة",
-    "location.directions": "الاتجاهات",
 
     "services.eyebrow": "OUR TREATMENTS",
     "services.title": "خدماتنا",
@@ -109,11 +104,6 @@ const messages: Record<Locale, Dict> = {
     "about.stat3": "Devices",
     "about.ctaServices": "View Services",
     "about.ctaWhatsapp": "WhatsApp Me",
-    "location.eyebrow": "LOCATION",
-    "location.title": "Clinic Location",
-    "location.desc": "Ghadeer welcomes you at Dr. Anwar Al Adwan — Derma Solutions Clinic.",
-    "location.openMaps": "Open in Maps",
-    "location.directions": "Directions",
 
     "services.eyebrow": "OUR TREATMENTS",
     "services.title": "Our Services",

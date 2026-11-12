@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import ghadeer from "@/assets/ghadeer.jpg";
 import { CinemaBg, SPA_MUSIC_ID } from "@/components/CinemaBg";
 import { Socials } from "@/components/Chrome";
-import { LocationMap } from "@/components/LocationMap";
 import { SplitLink } from "@/components/Transition";
 import { contact } from "@/lib/services";
 import { useLocale } from "@/lib/i18n";
@@ -97,16 +96,6 @@ function Index() {
               <Socials />
             </div>
           </section>
-        </div>
-
-        <a href="#location" className="home-scroll-hint" aria-label={t("location.title")}>
-          <span />
-        </a>
-      </section>
-
-      <section id="location" className="home-location">
-        <div className="home-location-inner">
-          <LocationMap />
         </div>
       </section>
     </main>

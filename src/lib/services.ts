@@ -186,19 +186,6 @@ export const contact = {
   instagram: "https://www.instagram.com/ghadeer_alnajjar77/",
   tiktok: "https://www.tiktok.com/@ghadeer.alnajjar1",
   facebook: "https://www.facebook.com/yasnen.alnajjar",
-  maps: "https://maps.app.goo.gl/oxUZCLjXKBnLXSCp6",
-  mapsEmbed:
-    "https://www.google.com/maps?q=31.9931901,35.8700961&hl=ar&z=16&output=embed",
-  clinic: {
-    ar: "عيادة الدكتور أنور العدوان — Derma Solutions Clinic",
-    en: "Dr. Anwar Al Adwan — Derma Solutions Clinic",
-  },
-  address: {
-    ar: "شارع المدينة المنورة، دوار الواحة، مجمع فطين البداد، تلاع العلي — عمّان",
-    en: "Al Madinah Al Munawarah St, Al Waha Circle, Fateen Al Baddad Complex, Tlaa Al Ali — Amman",
-  },
-  lat: 31.9931901,
-  lng: 35.8700961,
 };
 
 export function serviceTitle(service: Service, locale: Locale) {
